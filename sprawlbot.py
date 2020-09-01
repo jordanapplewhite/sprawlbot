@@ -151,11 +151,13 @@ def get_config():
     parser.add_argument('--no-prompt', action='store_true')
     args = parser.parse_args()
 
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+
     if args.reset:
-        os.remove('config.json')
+        os.remove(os.path.join(script_directory,'config.json'))
 
     try:
-        with open('config.json') as f:
+        with open(os.path.join(script_directory,'config.json')) as f:
             config = json.load(f)
             args.token = args.token or config.get('token')
             args.prefix = args.prefix or config.get('prefix')
@@ -166,7 +168,7 @@ def get_config():
         conf = settings_dialog(default_prefix)
         args.token = conf.get('token')
         args.prefix = conf.get('prefix')
-        with open('config.json', 'w') as f:
+        with open(os.path.join(script_directory,'config.json', 'w')) as f:
             json.dump({
                 'token': args.token,
                 'prefix': args.prefix,
@@ -204,8 +206,10 @@ def settings_dialog(default_prefix):
 if __name__ == '__main__':
     config = get_config()
 
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+
     data = {}
-    data_dir = Path('data')
+    data_dir = Path(os.path.join(script_directory,'data'))
     data_files = ['tags', 'moves', 'cyber']
     for file in data_files:
         with open(str(data_dir / '{}.json'.format(file))) as f:
