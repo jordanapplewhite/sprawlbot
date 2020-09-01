@@ -168,7 +168,7 @@ def get_config():
         conf = settings_dialog(default_prefix)
         args.token = conf.get('token')
         args.prefix = conf.get('prefix')
-        with open(os.path.join(script_directory,'config.json', 'w')) as f:
+        with open(os.path.join(script_directory,'config.json'), 'w') as f:
             json.dump({
                 'token': args.token,
                 'prefix': args.prefix,
